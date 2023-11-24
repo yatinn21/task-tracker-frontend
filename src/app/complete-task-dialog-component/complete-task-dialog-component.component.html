@@ -1,0 +1,16 @@
+<!-- complete-task-dialog.component.html -->
+<h2>Complete Task</h2>
+<form (ngSubmit)="onSubmit()" #completeTaskForm="ngForm">
+  <mat-form-field>
+    <input matInput placeholder="Total Hours" [(ngModel)]="totalHours" name="totalHours" type="number" required pattern="^[0-9]+(\.[0-5]{1}[0-9]{0,1})?$">
+    <mat-error *ngIf="completeTaskForm.controls['totalHours']?.hasError('required')">Total Hours is required</mat-error>
+    <mat-error *ngIf="completeTaskForm.controls['totalHours']?.hasError('pattern')">
+      Invalid total hours (Decimal part cannot be more than .59)
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput placeholder="Final Notes" [(ngModel)]="finalNotes" name="finalNotes" required></textarea>
+    <mat-error *ngIf="completeTaskForm.controls['finalNotes']?.hasError('required')">Final Notes is required</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit" [disabled]="completeTaskForm.invalid">Submit</button>
+</form>

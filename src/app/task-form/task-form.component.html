@@ -1,0 +1,31 @@
+<form #taskForm="ngForm" (ngSubmit)="submitForm()">
+  <mat-form-field>
+    <input matInput placeholder="Task Number" [(ngModel)]="formData.taskNumber" name="taskNumber" required pattern="[A-Za-z]\d{5}" autocomplete="off" appNospaceUppercase>
+    <mat-error *ngIf="taskForm.controls['taskNumber']?.hasError('pattern')">Task Number should be in the format: L##### (where L is a letter and # is a number)</mat-error>
+  </mat-form-field>   <br><br>
+
+  <mat-form-field>
+    <input matInput placeholder="Estimate Hours" 
+            [(ngModel)]="formData.estimateHours" 
+            name="estimateHours" 
+            #estimateHoursInput="ngModel" 
+            required 
+            pattern="^[0-9]+(\.[0-5]{1}[0-9]{0,1})?$"
+            autocomplete="off">
+    <mat-error *ngIf="estimateHoursInput.invalid && (estimateHoursInput.dirty )">
+      Invalid estimate hours (**Decimal part cannot be more than .59)
+    </mat-error>
+  </mat-form-field> <br><br>
+  
+  <div>
+    <editor [init]="editorConfig" name="editorContent" [(ngModel)]="editorContent"></editor>
+  </div>
+  
+  <button mat-raised-button color="primary" type="submit" [disabled]="taskForm.invalid">Submit</button>
+</form>
+
+<mat-error *ngIf="alreadyExistsErr">
+  TaskNumber already exists. Please use a different TaskNumber.
+</mat-error>
+
+  

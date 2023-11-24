@@ -1,0 +1,49 @@
+/* CSS reset for body */
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Centering the form */
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px; /* Adjust the margin as needed */
+  }
+  
+  /* Styling the form fields */
+  mat-form-field {
+    width: 300px; /* Adjust the width as needed */
+    margin-bottom: 20px; /* Adjust the margin as needed */
+  }
+  
+  /* Styling the input fields */
+  input {
+    width: 100%;
+  }
+  
+  /* Styling the error messages */
+  mat-error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  /* Styling the editor */
+  div[name="editorContent"] {
+    margin-bottom: 20px; /* Adjust the margin as needed */
+  }
+  
+  /* Styling the submit button */
+  button {
+    width: 300px; /* Adjust the width as needed */
+  }
+  
+  /* Styling the error message for duplicate task number */
+  mat-error.duplicate-error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  

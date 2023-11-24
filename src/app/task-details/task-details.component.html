@@ -1,0 +1,44 @@
+<div class="task-details">
+  <h2>Task Details</h2>
+
+  <div *ngIf="task">
+    <div>
+      <strong>Task Number:</strong> {{ task.taskNumber }}
+    </div>
+    <div>
+      <strong>Estimate Hours:</strong> {{ task.estimateHours }}
+    </div>
+    <div style="display: flex;">
+      <strong>Estimate Notes:</strong> <span style="margin-bottom: 0px;" [innerHTML]="task.estimateNotes"></span>
+    </div>
+    <div *ngIf="task.actualHours">
+      <strong>Actual Hours:</strong> {{ task.actualHours }}
+    </div>
+    <div *ngIf="task.notes">
+      <strong>Final Note:</strong> {{ task.notes }}
+    </div>
+    <div>
+      <strong>Completed:</strong> {{ task.completed ? 'Yes' : 'No' }}
+    </div>
+    <div *ngIf="!task.completed">
+      <button mat-button color="primary" (click)="addEntry()">Add New Entry</button>
+    </div>
+    <!-- <div *ngIf="task.entries.length > 0">
+      <h3>Estimation Entries</h3>
+      <ul>
+        <li *ngFor="let entry of task.entries">
+          {{ entry.estimateHours }} hours - {{ entry.estimateNotes }}
+        </li>
+      </ul>
+    </div> -->
+    <div *ngIf="!task.completed">
+      <button mat-button color="primary" (click)="completeTask(task.taskNumber)">Complete Task</button>
+    </div>
+
+    <div *ngIf="task.completed">
+      <a routerLink="/task-list">
+        <button mat-button color="primary">Back</button>
+      </a>
+    </div>
+  </div>
+</div>
