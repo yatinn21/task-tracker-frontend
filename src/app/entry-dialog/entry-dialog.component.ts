@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TaskService } from '../services/task.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-entry-dialog',
@@ -13,13 +14,12 @@ export class EntryDialogComponent implements OnInit {
   editorContent: any = '';
   task_id: any;
 
-  ngOnInit(){
-   this.task_id = sessionStorage.getItem('task_id');
+  ngOnInit() {
+    this.task_id = sessionStorage.getItem('task_id');
   }
 
-  constructor( private entryService : TaskService ,
+  constructor(private entryService: TaskService, private route: Router,
     public dialogRef: MatDialogRef<EntryDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   editorConfig = {
@@ -34,17 +34,19 @@ export class EntryDialogComponent implements OnInit {
   }
 
   onAddEntry(): void {
-    alert('hi');
-    console.log(this.estimateHours , this.editorContent)
+    // console.log(this.estimateHours , this.editorContent)
     if (this.estimateHours && this.editorContent) {
       const entry = { estimateHours: this.estimateHours, estimateNotes: this.editorContent };
       this.entryService.entryForSameTask({
         taskNumber: this.task_id,
-        estimateHours: this.estimateHours, 
+        estimateHours: this.estimateHours,
         estimateNotes: this.editorContent
-      }).subscribe((res: any)=> {
-        console.log(res);
-        this.dialogRef.close(entry);
+      }).subscribe((res: any) => {
+        // console.log(res);
+        if (res) {
+          this.dialogRef.close(entry);
+          this.route.navigate(['task-list']);
+        }
       })
       // console.log(entry);
     }

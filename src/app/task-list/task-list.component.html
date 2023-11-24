@@ -1,27 +1,31 @@
-<div *ngIf="tasks">
+<div *ngIf="taskList.length">
   <h2>Task List</h2>
 
-  <div class="task-list">
-  <mat-card *ngFor="let task of tasks" class="task-card">
-    <mat-card-content>
-      <div class="card-line">
-        <span><b>Task Number:</b> {{ task.taskNumber }}</span> &nbsp; &nbsp;
-      </div>
-      <div class="card-line">
-        <span><b>Estimate Hours:</b> {{ task.estimateHours }}</span>
-      </div>
-      <div class="card-line" style="display: flex;">
-        <b>Estimate Notes: </b> <span [innerHTML]=" task.estimateNotes"></span> 
-      </div>
-    </mat-card-content>
-    <mat-card-actions style="display: flex; justify-content: space-between; align-items: baseline;">
-      <button mat-button color="primary" (click)="viewDetails(task)">View Details</button>
-      <span *ngIf="task.completed" style="color: red;">Completed</span>
-    </mat-card-actions>
-  </mat-card>
+  <div *ngFor="let list of taskList">
+    <h3>Task Number: {{ list.taskNumber }}</h3>
+    
+    <table class="task-table">
+      <thead>
+        <tr>
+          <th>Estimate Hours</th>
+          <th>Estimate Notes</th>
+          <th>Completed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of list.tasks">
+          <td>{{ task.estimateHours }}</td>
+          <td [innerHTML]="task.estimateNotes"></td>
+          <td>{{ task.completed }}</td>
+          <td>
+            <button mat-button color="primary" (click)="viewDetails(task)">View Details</button>
+          </td>
+        </tr>
+      </tbody>
+    </table> <br><br>
   </div>
 
   <a routerLink="/task-form">
-  <button mat-button color="primary">New Task</button>
+    <button mat-button color="primary">New Task</button>
   </a>
 </div>

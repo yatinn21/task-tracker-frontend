@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class TaskListComponent implements OnInit {
   tasks: any[] = []; 
+  taskList: any[] = [];
   // dummyTasks = [
   //   {
   //     taskNumber: 1,
@@ -40,14 +41,40 @@ export class TaskListComponent implements OnInit {
     this.loadTasks();
   }
 
+  // loadTasks() {
+  //   // this.tasks = this.dummyTasks;
+  //   // console.log(this.tasks)
+  //   this.taskService.getTasks().subscribe(
+  //     (data: any) => {
+  //       if(data.length){
+  //         this.tasks = data;
+  //         console.log(this.tasks,'all task')
+  //       } else {
+  //         this.route.navigate(['task-form']);
+  //       }
+  //     },
+  //     error => {
+  //       console.error('Error loading tasks:', error);
+  //     }
+  //   );
+  // }
+
   loadTasks() {
-    // this.tasks = this.dummyTasks;
-    // console.log(this.tasks)
     this.taskService.getTasks().subscribe(
       (data: any) => {
-        if(data.length){
-          this.tasks = data;
-          console.log(this.tasks,'all task')
+        if (data.length) {
+          // Group tasks by taskNumber
+          const taskListMap = new Map<string, any>();
+          data.forEach((task: any) => {
+            const taskNumber = task.taskNumber;
+            if (taskListMap.has(taskNumber)) {
+              taskListMap.get(taskNumber).tasks.push(task);
+            } else {
+              taskListMap.set(taskNumber, { taskNumber, tasks: [task] });
+            }
+          });
+  
+          this.taskList = Array.from(taskListMap.values());
         } else {
           this.route.navigate(['task-form']);
         }
@@ -57,8 +84,11 @@ export class TaskListComponent implements OnInit {
       }
     );
   }
+  
 
   viewDetails(task: any) {
+    console.log('taskk',task);
+    sessionStorage.setItem('taskDetail',JSON.stringify(task));
     this.route.navigate(['task-details/',task.taskNumber])
     // console.log('View details', task);
 

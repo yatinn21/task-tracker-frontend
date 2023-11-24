@@ -20,8 +20,8 @@ export class TaskService {
     return this.http.get('http://localhost:4000/api/tasks/getAllTasks');
   }
 
-  getTaskDetails(taskId: any){
-    return this.http.get(`http://localhost:4000/api/tasks/getTaskById/${taskId}`);
+  getTaskDetails(taskId: any, obj:any){
+    return this.http.post(`http://localhost:4000/api/tasks/getTaskById/${taskId}`,obj);
   }
 
   updateCompleteStatus(taskNumber:any ,obj: any){

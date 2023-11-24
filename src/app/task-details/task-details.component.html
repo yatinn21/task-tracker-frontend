@@ -1,15 +1,16 @@
 <div class="task-details">
   <h2>Task Details</h2>
 
-  <div *ngIf="task">
+  <div *ngIf="task" style="display: flex; flex-direction: column; flex-wrap: wrap;">
     <div>
       <strong>Task Number:</strong> {{ task.taskNumber }}
     </div>
     <div>
       <strong>Estimate Hours:</strong> {{ task.estimateHours }}
     </div>
-    <div style="display: flex;">
-      <strong>Estimate Notes:</strong> <span style="margin-bottom: 0px;" [innerHTML]="task.estimateNotes"></span>
+    <div style="display: flex; align-items: baseline; flex-direction: column; ">
+      <strong>Estimate Notes:</strong>
+      <div [innerHTML]="task.estimateNotes"></div>
     </div>
     <div *ngIf="task.actualHours">
       <strong>Actual Hours:</strong> {{ task.actualHours }}

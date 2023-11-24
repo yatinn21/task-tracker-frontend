@@ -12,18 +12,31 @@ import { EntryDialogComponent } from '../entry-dialog/entry-dialog.component';
 })
 export class TaskDetailsComponent implements OnInit {
   taskId: any = '';
-  task: any; 
+  task: any;
+  estimateHours: any;
+  estimateNotes: any;
 
-  constructor(private route: ActivatedRoute, private taskService: TaskService, public dialog: MatDialog) {}
+  constructor(private route: ActivatedRoute, private taskService: TaskService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.taskId = this.route.snapshot.paramMap.get('id');
-    sessionStorage.setItem('task_id',this.taskId);
+    sessionStorage.setItem('task_id', this.taskId);
+    const a: any = sessionStorage?.getItem('taskDetail');
+    if (a != 'undefined') {
+      this.estimateHours = JSON.parse(a)?.['estimateHours'];
+      this.estimateNotes = JSON.parse(a)?.['estimateNotes'];
+    }
+    // console.log('a',this.estimateHours, this.estimateNotes);
     this.loadTaskDetails();
   }
 
   loadTaskDetails() {
-    this.taskService.getTaskDetails(this.taskId).subscribe(
+    let obj = {
+      taskNumber: this.taskId,
+      estimateHours: this.estimateHours,
+      estimateNotes: this.estimateNotes
+    }
+    this.taskService.getTaskDetails(this.taskId, obj).subscribe(
       (data: any) => {
         this.task = data;
       },
@@ -35,27 +48,23 @@ export class TaskDetailsComponent implements OnInit {
 
   completeTask(task: any): void {
     const dialogRef = this.dialog.open(CompleteTaskDialogComponentComponent, {
-      width: '300px', 
+      width: '300px',
       data: { taskNumber: task.taskNumber },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log(result);
-      }
-    });
   }
 
   addEntry(): void {
     const dialogRef = this.dialog.open(EntryDialogComponent, {
-      width: '300px',
+      width: '50%',
+
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      // if (result) {
-      
-      // }
-    });
+    // dialogRef.afterClosed().subscribe(result => {
+    // if (result) {
+
+    // }
+    // });
   }
 
 }
